@@ -2202,16 +2202,12 @@ class SfpStateUpdateTask(threading.Thread):
             transceiver_dict = {}
             # transceiver_dom_dict = {}
 
-            port_info_dict = _wrapper_get_transceiver_info(pport)
-            if port_info_dict is not None:
-                transceiver_dict[pport] = port_info_dict
+            if _wrapper_get_presence(pport):
+                port_info_dict = _wrapper_get_transceiver_info(pport)
+                if port_info_dict is not None:
+                    transceiver_dict[pport] = port_info_dict
 
-            # dom_info_dict = _wrapper_get_transceiver_dom_info(pport)
-            # if dom_info_dict is not None:
-            #     beautify_dom_info_dict(dom_info_dict, pport)
-            #     transceiver_dom_dict[pport] = dom_info_dict
-
-            media_settings_parser.notify_media_setting(lport, transceiver_dict, self.xcvr_table_helper.get_app_port_tbl(port_change_event.asic_id), self.xcvr_table_helper.get_cfg_port_tbl(port_change_event.asic_id), self.port_mapping, self.port_dict)
+                media_settings_parser.notify_media_setting(lport, transceiver_dict, self.xcvr_table_helper.get_app_port_tbl(port_change_event.asic_id), self.xcvr_table_helper.get_cfg_port_tbl(port_change_event.asic_id), self.port_mapping, self.port_dict)
 
     def on_remove_logical_port(self, port_change_event):
         """Called when a logical port is removed from CONFIG_DB.
